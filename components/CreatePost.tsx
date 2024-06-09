@@ -1,5 +1,12 @@
 import { Textarea } from "@mui/joy";
-import { FormControl, InputLabel, MenuItem, Select, TextField } from "@mui/material";
+import {
+  Button,
+  FormControl,
+  InputLabel,
+  MenuItem,
+  Select,
+  TextField,
+} from "@mui/material";
 import { useForm, Controller, SubmitHandler } from "react-hook-form";
 
 interface IFormInput {
@@ -115,6 +122,11 @@ const CreatePost: React.FC = () => {
                 />
               )}
             />
+          </div>
+          <div className="mt-5">
+            <Button className="felx items-end" variant="outlined">
+              Tạo bài viết
+            </Button>
           </div>
         </div>
       </div>

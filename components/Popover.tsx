@@ -3,8 +3,10 @@ import React from "react";
 import AccountCircleIcon from "@mui/icons-material/AccountCircle";
 import Link from "next/link";
 import { usePersonStore } from "@/story";
+import { useRouter } from "next/navigation";
 
 const PopoverCustom = () => {
+  const router = useRouter();
   const addUser: any = usePersonStore((state: any) => state.addUser);
   const [anchorEl, setAnchorEl] = React.useState<HTMLButtonElement | null>(
     null
@@ -20,6 +22,10 @@ const PopoverCustom = () => {
 
   const open = Boolean(anchorEl);
 
+  const handleLogOut = () => {
+    addUser(false);
+    router.push("/");
+  };
   return (
     <>
       <div>
@@ -44,7 +50,7 @@ const PopoverCustom = () => {
           <MenuItem onClick={handleClose}>
             <Link href="/new-story">Trang cá nhân</Link>
           </MenuItem>
-          <MenuItem onClick={() => addUser(false)}>Đăng xuất</MenuItem>
+          <MenuItem onClick={() => handleLogOut()}>Đăng xuất</MenuItem>
         </Menu>
       </div>
     </>
