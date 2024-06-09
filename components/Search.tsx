@@ -26,7 +26,7 @@ const Search: React.FC = () => {
       page: page,
     };
     const resp = await fetch(`http://localhost:8080/article/search`, {
-      method: "GET",
+      method: "POST",
       mode: "cors",
       credentials: "same-origin",
       headers: {

@@ -12,9 +12,6 @@ const Infomation: React.FC = () => {
           <div className="flex flex-col">
             <div className="flex justify-between">
               <label className="font-semibold pb-2">Email: </label>
-              <label className="cursor-pointer">
-                <EditIcon />
-              </label>
             </div>
             <span>tvietnguyen1997@gmail.com</span>
           </div>
