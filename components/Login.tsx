@@ -18,25 +18,39 @@ import React from "react";
 import PopoverCustom from "./Popover";
 import Notification from "./Notification";
 import { useRouter } from "next/navigation";
+import * as yup from "yup";
+import { yupResolver } from "@hookform/resolvers/yup";
 
 interface IFormInputs {
   email: string;
   password: string;
 }
 
+const schema = yup
+  .object({
+    email: yup.string().email().required("Trường bắt buộc, vui long nhập"),
+    password: yup.string().required("Trường bắt buộc, vui long nhập"),
+  })
+  .required();
+
 const Login: React.FC = () => {
   const router = useRouter();
-  const { handleSubmit, control } = useForm<IFormInputs>({
+  const {
+    handleSubmit,
+    control,
+    formState: { errors },
+  } = useForm<IFormInputs>({
     defaultValues: {
       email: "",
       password: "",
     },
+    resolver: yupResolver(schema),
   });
   const [open, setOpen] = React.useState(false);
   const [isLogin, setIsLogin] = React.useState(false);
   const [openNoti, setOpenNoti] = React.useState(false);
   const [message, setMessage] = React.useState("");
-  const [title, setTitle] = React.useState("Login");
+  const [title, setTitle] = React.useState("Đăng nhập");
   const [showPassword, setShowPassword] = React.useState(false);
 
   const handleClickOpen = () => {
@@ -54,20 +68,29 @@ const Login: React.FC = () => {
   };
 
   const onSubmit = handleSubmit(async (data) => {
-    if (title === "Login") {
-      router.replace(`/?email=${data.email}&password=${data.password}`);
-      const resp = await fetch(`/api/login?email=${data.email}&password=${data.password}`)
-        .then((res) => res.json())
-        .catch((e) => console.log(e));
-      if (resp.code === 400) {
-        setOpenNoti(true);
-        setMessage("Không tìm thấy người dùng");
-        return;
-      }
-      setOpenNoti(true);
-      setMessage("Đăng nhập thành công");
-      setIsLogin(true);
-      handleClose();
+    if (title === "Đăng nhập") {
+      const resp = await fetch("http://localhost:8080/user/login", {
+        method: "POST",
+        mode: "cors",
+        credentials: "same-origin",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({ ...data })
+      });
+      console.log(resp);
+    }
+    if (title === "Đăng ký") {
+      const resp = await fetch("http://localhost:8080/user/registry", {
+        method: "POST",
+        mode: "cors",
+        credentials: "same-origin",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({ ...data })
+      });
+      console.log(resp);
     }
   });
 
@@ -104,17 +127,18 @@ const Login: React.FC = () => {
               <TextField
                 label="Email"
                 variant="outlined"
-                className="mb-6 w-full"
+                className="w-full"
                 autoComplete="no"
                 {...field}
               />
             )}
           />
+          <p className="text-[red]">{errors.email?.message}</p>
           <Controller
             name="password"
             control={control}
             render={({ field }) => (
-              <FormControl className="w-full mt-3" variant="outlined">
+              <FormControl className="w-full mt-6" variant="outlined">
                 <InputLabel htmlFor="outlined-adornment-password">
                   Password
                 </InputLabel>
@@ -138,6 +162,7 @@ const Login: React.FC = () => {
               </FormControl>
             )}
           />
+          <p className="text-[red]">{errors.email?.message}</p>
           <div className="mt-5 w-full">
             <Button
               variant="contained"
@@ -151,10 +176,10 @@ const Login: React.FC = () => {
               <a
                 className="text-[#1976d2] decoration-1 cursor-pointer underline"
                 onClick={() =>
-                  handleTitle(title === "Login" ? "Sign up" : "Login")
+                  handleTitle(title === "Đăng nhập" ? "Đăng ký" : "Đăng nhập")
                 }
               >
-                {title === "Login" ? "Sign up" : "Login"}
+                {title === "Đăng nhập" ? "Đăng ký" : "Đăng nhập"}
               </a>
             </div>
           </div>

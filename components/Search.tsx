@@ -15,23 +15,42 @@ import { useForm, Controller } from "react-hook-form";
 const Search: React.FC = () => {
   const { control, handleSubmit } = useForm();
   const [data, setData] = useState([]);
+  const [value, setValue] = useState<any>();
+  const [page, setPage] = useState(1);
   const [isLoading, setIsLoading] = useState(false);
 
-  const getData = async () => {
-    setIsLoading(true);
-    const resp = await fetch(`/api/article`)
+  const getData = async (value: any) => {
+    const dataSearch = {
+      search: value?.search,
+      size: 10,
+      page: page,
+    };
+    const resp = await fetch(`http://localhost:8080/article/search`, {
+      method: "GET",
+      mode: "cors",
+      credentials: "same-origin",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(dataSearch),
+    })
       .then((res) => res.json())
       .catch((e) => console.log(e));
 
     setData(resp || []);
     setIsLoading(false);
   };
-
   const onSubmit = handleSubmit((data) => {
     if (!data.search) return;
-    getData();
+    setIsLoading(true);
+    setValue(data);
+    getData(data);
   });
 
+  const handleChange = (event: React.ChangeEvent<unknown>, valuePage: number) => {
+    setPage(valuePage);
+    getData(value);
+  };
   return (
     <>
       <Paper
@@ -92,6 +111,8 @@ const Search: React.FC = () => {
                 shape="rounded"
                 className="block justify-end"
                 color="primary"
+                page={page}
+                onChange={handleChange}
               />
             </div>
           )}

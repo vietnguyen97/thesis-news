@@ -3,19 +3,21 @@ import { Divider } from "@mui/joy";
 import { Chip } from "@mui/material";
 import Image from "next/image";
 import Link from "next/link";
+import BookmarkIcon from '@mui/icons-material/Bookmark';
+import BookmarkBorderIcon from '@mui/icons-material/BookmarkBorder';
 
-const CardIndex: React.FC<{ data: [] | never[] }> = ({ data }) => {
+const CardIndex: React.FC<{ data: [] | never[], isStyle?: boolean }> = ({ data, isStyle = false }) => {
   return (
     <>
-      <div className="pt-8 block">
+      <div className={`${isStyle ? '' : 'pt-8'} block`}>
         <div>
-          <div className="max-h-[82vh] scroll-visible">
+          <div className={`max-h-[82vh] ${isStyle ? 'scroll-visible !pl-0' : 'scroll-visible'}`}>
             {data.length > 0 &&
               data.map((el: any) => (
                 <article key={el._id || Math.floor(Math.random() * 1000)}>
                   <div className="box-content mr-auto ml-auto block">
                     <div className="justify-center flex ">
-                      <div className="lg:max-w-[680px] mx-6 min-w-0 w-full">
+                      <div className={`lg:max-w-[680px] mx-6 min-w-0 w-full ${isStyle ? 'ml-0' : ''}`}>
                         <div className="w-full h-full">
                           <div className="block">
                             <div className="flex items-center">
@@ -37,6 +39,9 @@ const CardIndex: React.FC<{ data: [] | never[] }> = ({ data }) => {
                                   {formatDateHourMinute(
                                     el.publicationDate * 1000
                                   )}
+                                </div>
+                                <div className="cursor-pointer">
+                                  {el.isSave ? <BookmarkIcon /> : <BookmarkBorderIcon />}
                                 </div>
                               </div>
                             </div>
