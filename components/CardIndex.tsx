@@ -93,7 +93,7 @@ const CardIndex: React.FC<{ data: [] | never[]; isStyle?: boolean }> = ({
                                           <Link href={`/article/${el._id}`}>
                                             <Image
                                               alt="image"
-                                              src="/0_e8IMSJf7p60mk-WG.png"
+                                              src={el.images[0].url}
                                               width={112}
                                               height={112}
                                             />
