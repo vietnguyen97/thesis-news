@@ -30,7 +30,7 @@ const NewPassword: React.FC<{
     resolver: yupResolver(schema),
   });
   const onSubmit = handleSubmit(async (data) => {
-    const resp = await fetch("localhost:8080/user/reset-password", {
+    const resp = await fetch("`http://localhost:8080/user/reset-password", {
       method: "POST",
       mode: "cors",
       credentials: "same-origin",

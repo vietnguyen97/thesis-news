@@ -17,7 +17,7 @@ const ForgetPassword: React.FC<{
   const [isSendOtp, setIsSendOtp] = useState(false);
 
   const sendOtp = async (data: any) => {
-    const resp = await fetch("localhost:8080/user/send-otp", {
+    const resp = await fetch("`http://localhost:8080/user/send-otp", {
       method: "POST",
       mode: "cors",
       credentials: "same-origin",
@@ -32,6 +32,7 @@ const ForgetPassword: React.FC<{
     if (resp.statusCode !== 200) {
       setOpenNoti(true);
       setMessage(resp?.data?.message);
+      return;
     }
 
     if (resp?.statusCode === 200) {
@@ -48,7 +49,7 @@ const ForgetPassword: React.FC<{
       return;
     }
     // Verify Otp
-    const resp = await fetch("localhost:8080/user/verify-otp", {
+    const resp = await fetch("`http://localhost:8080/user/verify-otp", {
       method: "POST",
       mode: "cors",
       credentials: "same-origin",
@@ -84,7 +85,7 @@ const ForgetPassword: React.FC<{
               label="Email"
               placeholder="Vui lòng nhập email"
               variant="outlined"
-              className="w-full"
+              className="w-full pb-3"
               autoComplete="no"
               {...field}
             />
