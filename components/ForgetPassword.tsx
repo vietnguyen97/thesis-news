@@ -29,7 +29,7 @@ const ForgetPassword: React.FC<{
       .then((result) => result.json())
       .catch((e) => console.log(e));
 
-    if (resp.statusCode !== 200) {
+    if (resp?.statusCode !== 200) {
       setOpenNoti(true);
       setMessage(resp?.data?.message);
       return;
@@ -38,14 +38,16 @@ const ForgetPassword: React.FC<{
     if (resp?.statusCode === 200) {
       setOpenNoti(true);
       setMessage(resp?.data?.message);
-      return resp;
+      return true;
     }
   };
 
   const onSubmit = handleSubmit(async (data) => {
     if (!isSendOtp) {
-      await sendOtp(data);
-      setIsSendOtp(true);
+      const respSendOtp = await sendOtp(data);
+      if (respSendOtp) {
+        setIsSendOtp(true);
+      }
       return;
     }
     // Verify Otp
