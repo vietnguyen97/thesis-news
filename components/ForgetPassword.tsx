@@ -31,13 +31,13 @@ const ForgetPassword: React.FC<{
 
     if (resp?.statusCode !== 200) {
       setOpenNoti(true);
-      setMessage(resp?.data?.message);
+      setMessage(resp?.message || resp?.data?.message);
       return;
     }
 
     if (resp?.statusCode === 200) {
       setOpenNoti(true);
-      setMessage(resp?.data?.message);
+      setMessage(resp?.message || resp?.data?.message);
       return true;
     }
   };
@@ -51,7 +51,7 @@ const ForgetPassword: React.FC<{
       return;
     }
     // Verify Otp
-    const resp = await fetch("`http://localhost:8080/user/verify-otp", {
+    const resp = await fetch("http://localhost:8080/user/verify-otp", {
       method: "POST",
       mode: "cors",
       credentials: "same-origin",
@@ -76,6 +76,7 @@ const ForgetPassword: React.FC<{
   const handleReSendOTP = handleSubmit((data) => {
     sendOtp(data);
   });
+
   return (
     <>
       <div>
