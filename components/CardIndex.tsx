@@ -60,7 +60,7 @@ const CardIndex: React.FC<{
     if (resp.statusCode === 200) {
       setOpenNoti(true);
       setMessage(resp?.message || resp?.data?.message);
-      localStorage.setItem("user", JSON.stringify(resp?.data?.article));
+      localStorage.setItem("user", JSON.stringify(resp?.data));
       setIsDataCookie(!isDataCookie);
     }
   };
