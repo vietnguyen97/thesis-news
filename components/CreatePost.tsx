@@ -40,7 +40,11 @@ const CreatePost: React.FC = () => {
       headers: {
         "Content-Type": "application/json",
       },
-      body: JSON.stringify({ ...data, label: [data.lable], memberId }),
+      body: JSON.stringify({
+        ...data,
+        label: data.lable.split(","),
+        memberId: memberId?.member?.id,
+      }),
     })
       .then((result) => result.json())
       .catch((e) => console.log(e));
