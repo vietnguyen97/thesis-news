@@ -11,11 +11,28 @@ const DetailArticle: React.FC = () => {
   const router = useParams();
   const [data, setData] = useState<any>();
   const getDataArticle = async () => {
+    const memberId = JSON.parse(localStorage.getItem("user") as any);
     const resp = await fetch(`/api/article/${router?.id || ""}`)
       .then((res) => res.json())
       .catch((e) => console.log(e));
 
     setData(resp);
+
+    await fetch("http://localhost:8080/user/save", {
+      method: "POST",
+      mode: "cors",
+      credentials: "same-origin",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({
+        articleId: router?.id || "",
+        memberId: memberId?.member?.id,
+        type: "view",
+      }),
+    })
+      .then((result) => result.json())
+      .catch((e) => console.log(e));
   };
   useEffect(() => {
     getDataArticle();
@@ -42,7 +59,7 @@ const DetailArticle: React.FC = () => {
                     <div className="flex items-center">
                       <div>
                         <Chip
-                          label={data.topics && data.topics[0] || ""}
+                          label={(data.topics && data.topics[0]) || ""}
                           className="bg-[#f17b7b] text-white"
                         />
                       </div>
