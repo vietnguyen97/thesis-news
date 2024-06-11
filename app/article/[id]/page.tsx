@@ -42,7 +42,7 @@ const DetailArticle: React.FC = () => {
                     <div className="flex items-center">
                       <div>
                         <Chip
-                          label={data.topic && data.topics[0] || ""}
+                          label={data.topics && data.topics[0] || ""}
                           className="bg-[#f17b7b] text-white"
                         />
                       </div>
@@ -51,7 +51,7 @@ const DetailArticle: React.FC = () => {
                           <div className="flex-auto block text-sm ml-1">
                             {formatDateHourMinute(data.publicationDate * 1000)}
                           </div>
-                          <div className="flex text-sm">
+                          <div className="flex text-sm ml-1">
                             {formatDate(data.publicationDate * 1000)}
                           </div>
                         </div>
