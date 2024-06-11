@@ -14,7 +14,7 @@ import {
   OutlinedInput,
   TextField,
 } from "@mui/material";
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import PopoverCustom from "./Popover";
 import Notification from "./Notification";
 import * as yup from "yup";
@@ -31,16 +31,30 @@ interface IFormInputs {
 
 const schema = yup
   .object({
-    email: yup.string().email().required("Trường bắt buộc, vui long nhập"),
-    password: yup.string().required("Trường bắt buộc, vui long nhập"),
+    email: yup.string().email().required("Trường bắt buộc, vui lòng nhập"),
+    password: yup.string().required("Trường bắt buộc, vui lòng nhập"),
   })
   .required();
 
 const Login: React.FC = () => {
   const addUser: any = usePersonStore((state: any) => state.addUser);
   const userData: any = usePersonStore((state: any) => state.user);
-  const userStorate = localStorage.getItem('user');
-  const dataCookie = userStorate && JSON.parse(userStorate);
+
+  const [dataCookie, setDataCookie] = useState(null);
+
+  useEffect(() => {
+    if (typeof window !== "undefined") {
+      const userStorate = localStorage.getItem('user');
+      if (userStorate) {
+        try {
+          setDataCookie(JSON.parse(userStorate));
+        } catch (error) {
+          console.error("Lỗi khi phân tích dữ liệu JSON từ localStorage:", error);
+          setDataCookie(null);
+        }
+      }
+    }
+  }, []);
 
   const {
     handleSubmit,
@@ -54,11 +68,12 @@ const Login: React.FC = () => {
     },
     resolver: yupResolver(schema),
   });
-  const [open, setOpen] = React.useState(false);
-  const [openNoti, setOpenNoti] = React.useState(false);
-  const [message, setMessage] = React.useState("");
-  const [title, setTitle] = React.useState("Đăng nhập");
-  const [showPassword, setShowPassword] = React.useState(false);
+
+  const [open, setOpen] = useState(false);
+  const [openNoti, setOpenNoti] = useState(false);
+  const [message, setMessage] = useState("");
+  const [title, setTitle] = useState("Đăng nhập");
+  const [showPassword, setShowPassword] = useState(false);
   const [step, setStep] = useState(0);
   const [emailNewPassword, setEmailNewPassword] = useState("");
 
@@ -97,7 +112,9 @@ const Login: React.FC = () => {
         setMessage(resp?.message);
         return;
       }
-      localStorage.setItem('user', JSON.stringify(resp.data))
+      if (typeof window !== "undefined") {
+        localStorage.setItem('user', JSON.stringify(resp.data));
+      }
       addUser(resp.data);
       setOpenNoti(true);
       setMessage("Đăng nhập thành công");
@@ -119,6 +136,9 @@ const Login: React.FC = () => {
         setOpenNoti(true);
         setMessage(resp?.message);
         return;
+      }
+      if (typeof window !== "undefined") {
+        localStorage.setItem('user', JSON.stringify(resp.data));
       }
       addUser(resp?.data);
       setOpenNoti(true);
@@ -147,6 +167,7 @@ const Login: React.FC = () => {
     setStep(0);
     setTitle("Đăng nhập");
   };
+
   return (
     <div>
       <Notification
@@ -203,7 +224,6 @@ const Login: React.FC = () => {
                   )}
                 />
                 <p className="text-[red]">{errors.email?.message}</p>
-                {/* </form> */}
                 <Controller
                   name="password"
                   control={control}
@@ -237,12 +257,11 @@ const Login: React.FC = () => {
                     </FormControl>
                   )}
                 />
-                <p className="text-[red]">{errors.email?.message}</p>
+                <p className="text-[red]">{errors.password?.message}</p>
                 <div className="mt-5 w-full">
                   <Button
                     variant="contained"
                     className="w-full capitalize"
-                    // onClick={onSubmit}
                     type="submit"
                   >
                     {title}
