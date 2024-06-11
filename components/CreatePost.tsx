@@ -8,6 +8,8 @@ import {
   TextField,
 } from "@mui/material";
 import { useForm, Controller, SubmitHandler } from "react-hook-form";
+import Notification from "./Notification";
+import { useState } from "react";
 
 interface IFormInput {
   title: string;
@@ -17,7 +19,7 @@ interface IFormInput {
   topic: string;
 }
 const CreatePost: React.FC = () => {
-  const { control, handleSubmit } = useForm<IFormInput>({
+  const { control, handleSubmit, reset } = useForm<IFormInput>({
     defaultValues: {
       title: "",
       lable: "",
@@ -26,12 +28,45 @@ const CreatePost: React.FC = () => {
       topic: "",
     },
   });
-  const onSubmit: SubmitHandler<IFormInput> = async (data) => {
-    console.log(data);
-    const resp = await fetch('')
+  const [openNoti, setOpenNoti] = useState(false);
+  const [message, setMessage] = useState("");
+
+  const onSubmit = handleSubmit(async (data) => {
+    const memberId = JSON.parse(localStorage.getItem("user") as any);
+    const resp = await fetch("http://localhost:8080/user/post", {
+      method: "POST",
+      mode: "cors",
+      credentials: "same-origin",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({ ...data, label: [data.lable], memberId }),
+    })
+      .then((result) => result.json())
+      .catch((e) => console.log(e));
+
+    if (resp.statusCode !== 200) {
+      setOpenNoti(true);
+      setMessage(resp?.message);
+    }
+    if (resp.statusCode === 200) {
+      setOpenNoti(true);
+      setMessage(resp?.message);
+      reset();
+    }
+  });
+  const handleCloseNoti = () => {
+    setOpenNoti(false);
+    setMessage("");
   };
+
   return (
     <>
+      <Notification
+        open={openNoti}
+        handleCloseNoti={handleCloseNoti}
+        message={message}
+      />
       <div className="block">
         <div className="flex flex-col">
           <div className="mb-4">
@@ -125,7 +160,11 @@ const CreatePost: React.FC = () => {
             />
           </div>
           <div className="mt-5">
-            <Button className="felx items-end" variant="outlined">
+            <Button
+              className="felx items-end"
+              variant="outlined"
+              onClick={onSubmit}
+            >
               Tạo bài viết
             </Button>
           </div>
