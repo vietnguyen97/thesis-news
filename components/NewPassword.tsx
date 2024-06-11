@@ -1,11 +1,19 @@
-import { Button, TextField } from "@mui/material";
+import {
+  Button,
+  FormControl,
+  IconButton,
+  InputAdornment,
+  InputLabel,
+  OutlinedInput,
+} from "@mui/material";
 import { useForm, Controller } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
 import * as yup from "yup";
+import { Visibility, VisibilityOff } from "@mui/icons-material";
+import React from "react";
 
 const schema = yup
   .object({
-    email: yup.string().email().required("Trường bắt buộc, vui long nhập"),
     password: yup.string().required("Trường bắt buộc, vui long nhập"),
   })
   .required();
@@ -14,21 +22,22 @@ const NewPassword: React.FC<{
   handleBack: () => void;
   setOpenNoti: (e: boolean) => void;
   setMessage: (e: string) => void;
-}> = ({ handleBack, setMessage, setOpenNoti }) => {
+  emailNewPassword: string;
+}> = ({ handleBack, setMessage, setOpenNoti, emailNewPassword }) => {
   const {
     handleSubmit,
     control,
     formState: { errors },
   } = useForm<{
-    email: string;
     password: string;
   }>({
     defaultValues: {
-      email: "",
       password: "",
     },
     resolver: yupResolver(schema),
   });
+  const [showPassword, setShowPassword] = React.useState(false);
+
   const onSubmit = handleSubmit(async (data) => {
     const resp = await fetch("http://localhost:8080/user/reset-password", {
       method: "POST",
@@ -37,7 +46,10 @@ const NewPassword: React.FC<{
       headers: {
         "Content-Type": "application/json",
       },
-      body: JSON.stringify({ email: data.email, password: data.password }),
+      body: JSON.stringify({
+        email: emailNewPassword,
+        password: data.password,
+      }),
     })
       .then((result) => result.json())
       .catch((e) => console.log(e));
@@ -51,36 +63,38 @@ const NewPassword: React.FC<{
     setMessage(resp?.message || resp?.data?.message);
     handleBack();
   });
+
+  const handleClickShowPassword = () => setShowPassword((show) => !show);
+
   return (
     <>
       <div>
         <Controller
-          name="email"
-          control={control}
-          render={({ field }) => (
-            <TextField
-              label="Email"
-              placeholder="Vui lòng nhập email"
-              variant="outlined"
-              className="w-full"
-              autoComplete="no"
-              {...field}
-            />
-          )}
-        />
-        <p className="text-[red]">{errors.email?.message}</p>
-        <Controller
           name="password"
           control={control}
           render={({ field }) => (
-            <TextField
-              label="Password"
-              placeholder="Vui lòng nhập password"
-              variant="outlined"
-              className="w-full mt-5"
-              autoComplete="no"
-              {...field}
-            />
+            <FormControl className="w-full mt-6" variant="outlined">
+              <InputLabel htmlFor="outlined-adornment-password">
+                Password
+              </InputLabel>
+              <OutlinedInput
+                id="outlined-adornment-password"
+                type={showPassword ? "text" : "password"}
+                endAdornment={
+                  <InputAdornment position="end">
+                    <IconButton
+                      aria-label="toggle password visibility"
+                      onClick={handleClickShowPassword}
+                      edge="end"
+                    >
+                      {showPassword ? <VisibilityOff /> : <Visibility />}
+                    </IconButton>
+                  </InputAdornment>
+                }
+                label="Password"
+                {...field}
+              />
+            </FormControl>
           )}
         />
         <p className="text-[red]">{errors.password?.message}</p>

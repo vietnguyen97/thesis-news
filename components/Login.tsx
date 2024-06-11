@@ -55,6 +55,7 @@ const Login: React.FC = () => {
   const [title, setTitle] = React.useState("Đăng nhập");
   const [showPassword, setShowPassword] = React.useState(false);
   const [step, setStep] = useState(0);
+  const [emailNewPassword, setEmailNewPassword] = useState("");
 
   const handleClickOpen = () => {
     setOpen(true);
@@ -62,6 +63,8 @@ const Login: React.FC = () => {
 
   const handleClose = () => {
     setOpen(false);
+    setTitle("Đăng nhập");
+    setStep(0);
   };
 
   const handleClickShowPassword = () => setShowPassword((show) => !show);
@@ -127,9 +130,10 @@ const Login: React.FC = () => {
     setTitle("Quên mật khẩu");
   };
 
-  const handleChangeNewPassword = () => {
+  const handleChangeNewPassword = (e: string) => {
     setStep(2);
     setTitle("Thay đổi mật khẩu");
+    setEmailNewPassword(e);
   };
 
   const handleBack = () => {
@@ -160,7 +164,7 @@ const Login: React.FC = () => {
           <h1 className="mb-10 text-center text-3xl font-medium">{title}</h1>
           {step === 1 && (
             <ForgetPassword
-              handleChangeNewPassword={handleChangeNewPassword}
+              handleChangeNewPassword={(e: string) => handleChangeNewPassword(e)}
               setOpenNoti={(e: boolean) => setOpenNoti(e)}
               setMessage={(e: string) => setMessage(e)}
             />
@@ -170,6 +174,7 @@ const Login: React.FC = () => {
               handleBack={handleBack}
               setOpenNoti={(e: boolean) => setOpenNoti(e)}
               setMessage={(e: string) => setMessage(e)}
+              emailNewPassword={emailNewPassword}
             />
           )}
           {step === 0 && (

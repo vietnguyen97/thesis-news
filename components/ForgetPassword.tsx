@@ -3,7 +3,7 @@ import { useState } from "react";
 import { useForm, Controller } from "react-hook-form";
 
 const ForgetPassword: React.FC<{
-  handleChangeNewPassword: () => void;
+  handleChangeNewPassword: (e: string) => void;
   setOpenNoti: (e: boolean) => void;
   setMessage: (e: string) => void;
 }> = ({ handleChangeNewPassword, setMessage, setOpenNoti }) => {
@@ -17,7 +17,7 @@ const ForgetPassword: React.FC<{
   const [isSendOtp, setIsSendOtp] = useState(false);
 
   const sendOtp = async (data: any) => {
-    const resp = await fetch("`http://localhost:8080/user/send-otp", {
+    const resp = await fetch("http://localhost:8080/user/send-otp", {
       method: "POST",
       mode: "cors",
       credentials: "same-origin",
@@ -65,10 +65,12 @@ const ForgetPassword: React.FC<{
 
     if (resp.statusCode !== 200) {
       setOpenNoti(true);
-      setMessage(resp?.data?.message);
+      setMessage(resp.message || resp?.data?.message);
     }
     if (resp.statusCode === 200) {
-      handleChangeNewPassword();
+      setOpenNoti(true);
+      setMessage(resp.message || resp?.data?.message);
+      handleChangeNewPassword(data.email);
       return;
     }
   });

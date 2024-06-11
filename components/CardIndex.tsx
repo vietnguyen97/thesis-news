@@ -61,7 +61,9 @@ const CardIndex: React.FC<{ data: [] | never[]; isStyle?: boolean }> = ({
                                   ) ? (
                                     <BookmarkIcon />
                                   ) : (
-                                    <BookmarkBorderIcon />
+                                    <>
+                                      {!userData ? "" : <BookmarkBorderIcon />}
+                                    </>
                                   )}
                                 </div>
                               </div>
@@ -93,7 +95,12 @@ const CardIndex: React.FC<{ data: [] | never[]; isStyle?: boolean }> = ({
                                           <Link href={`/article/${el.id}`}>
                                             <Image
                                               alt="image"
-                                              src={el.images && el.images.length > 0 ? el?.images[0].url : "/No_Image_Available.jpg"}
+                                              src={
+                                                el.images &&
+                                                el.images.length > 0
+                                                  ? el?.images[0].url
+                                                  : "/No_Image_Available.jpg"
+                                              }
                                               width={112}
                                               height={112}
                                             />
