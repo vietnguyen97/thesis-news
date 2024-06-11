@@ -26,8 +26,9 @@ const CreatePost: React.FC = () => {
       topic: "",
     },
   });
-  const onSubmit: SubmitHandler<IFormInput> = (data) => {
+  const onSubmit: SubmitHandler<IFormInput> = async (data) => {
     console.log(data);
+    const resp = await fetch('')
   };
   return (
     <>
