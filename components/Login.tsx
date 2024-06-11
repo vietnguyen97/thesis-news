@@ -119,6 +119,7 @@ const Login: React.FC = () => {
       if (typeof window !== "undefined") {
         localStorage.setItem("user", JSON.stringify(resp.data));
       }
+      setIsDataCookie(true);
       addUser(resp.data);
       setOpenNoti(true);
       setMessage("Đăng nhập thành công");
