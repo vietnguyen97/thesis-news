@@ -10,6 +10,7 @@ const CardCustom: React.FC<{ topic: string }> = ({ topic }) => {
   const [isLoading, setIsLoading] = useState(false);
   const [page, setPage] = React.useState(1);
   const [totalData, setTotalData] = useState(1);
+  const [isRefresh, setIsRefresh] = useState(false);
 
   const handleChange = (event: React.ChangeEvent<unknown>, value: number) => {
     let queryParams = new URL(window.location.href);
@@ -41,7 +42,7 @@ const CardCustom: React.FC<{ topic: string }> = ({ topic }) => {
   };
   useEffect(() => {
     getData(page);
-  }, [topic, page]);
+  }, [topic, page, isRefresh]);
 
   if (isLoading)
     return (
@@ -58,7 +59,7 @@ const CardCustom: React.FC<{ topic: string }> = ({ topic }) => {
     );
   return (
     <>
-      <CardIndex data={data} />
+      <CardIndex data={data} setIsRefresh={() => setIsRefresh(!isRefresh)} />
       {data.length > 0 && (
         <div className="block justify-end">
           <Pagination

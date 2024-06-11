@@ -5,33 +5,79 @@ import Image from "next/image";
 import Link from "next/link";
 import BookmarkIcon from "@mui/icons-material/Bookmark";
 import BookmarkBorderIcon from "@mui/icons-material/BookmarkBorder";
-import { usePersonStore } from "@/story";
 import { useEffect, useState } from "react";
+import { useParams } from "next/navigation";
+import Notification from "./Notification";
 
-const CardIndex: React.FC<{ data: [] | never[]; isStyle?: boolean }> = ({
-  data,
-  isStyle = false,
-}) => {
-  const userData: any = usePersonStore((state: any) => state.user);
- 
+const CardIndex: React.FC<{
+  data: [] | never[];
+  isStyle?: boolean;
+  setIsRefresh: () => void;
+}> = ({ data, isStyle = false, setIsRefresh }) => {
   const [dataCookie, setDataCookie] = useState<null | any>(null);
+  const [openNoti, setOpenNoti] = useState(false);
+  const [message, setMessage] = useState("");
+  const paramId = useParams();
 
   useEffect(() => {
     if (typeof window !== "undefined") {
-      const userStorate = localStorage.getItem('user');
+      const userStorate = localStorage.getItem("user");
       if (userStorate) {
         try {
           setDataCookie(JSON.parse(userStorate));
         } catch (error) {
-          console.error("Lỗi khi phân tích dữ liệu JSON từ localStorage:", error);
+          console.error(
+            "Lỗi khi phân tích dữ liệu JSON từ localStorage:",
+            error
+          );
           setDataCookie(null);
         }
       }
     }
   }, []);
 
+  const handleBookmask = async (type: string) => {
+    const memberId = JSON.parse(localStorage.getItem("user") as any);
+    const resp = await fetch("http://localhost:8080/user/save", {
+      method: "POST",
+      mode: "cors",
+      credentials: "same-origin",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({
+        articleId: paramId?.id,
+        memberId: memberId?.member?.id,
+        type: type,
+      }),
+    })
+      .then((result) => result.json())
+      .catch((e) => console.log(e));
+
+    if (resp.statusCode !== 200) {
+      setOpenNoti(true);
+      setMessage(resp?.message || resp?.data?.message);
+    }
+
+    if (resp.statusCode === 200) {
+      setOpenNoti(true);
+      setMessage(resp?.message || resp?.data?.message);
+      setIsRefresh();
+    }
+  };
+
+  const handleCloseNoti = () => {
+    setOpenNoti(false);
+    setMessage("");
+  };
+
   return (
     <>
+      <Notification
+        open={openNoti}
+        handleCloseNoti={handleCloseNoti}
+        message={message}
+      />
       <div className={`${isStyle ? "" : "pt-8"} block`}>
         <div>
           <div
@@ -56,7 +102,7 @@ const CardIndex: React.FC<{ data: [] | never[]; isStyle?: boolean }> = ({
                                 <Link href={`/article/${el.id}`}>
                                   <div>
                                     <Chip
-                                      label={el.topics && el.topics[0] || ""}
+                                      label={(el.topics && el.topics[0]) || ""}
                                       className="bg-[#f17b7b] text-white"
                                     />
                                   </div>
@@ -73,14 +119,19 @@ const CardIndex: React.FC<{ data: [] | never[]; isStyle?: boolean }> = ({
                                 </div>
                                 <div className="cursor-pointer">
                                   {dataCookie &&
-                                  dataCookie?.member?.savedArticles?.length > 0 &&
+                                  dataCookie?.member?.savedArticles?.length >
+                                    0 &&
                                   dataCookie?.member?.savedArticles?.includes(
                                     el.id
                                   ) ? (
-                                    <BookmarkIcon />
+                                    <BookmarkIcon onClick={() => handleBookmask("save")} />
                                   ) : (
                                     <>
-                                      {!dataCookie ? "" : <BookmarkBorderIcon />}
+                                      {!dataCookie ? (
+                                        ""
+                                      ) : (
+                                        <BookmarkBorderIcon onClick={() => handleBookmask("unsave")} />
+                                      )}
                                     </>
                                   )}
                                 </div>
