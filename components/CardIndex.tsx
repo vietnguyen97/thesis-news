@@ -6,7 +6,6 @@ import Link from "next/link";
 import BookmarkIcon from "@mui/icons-material/Bookmark";
 import BookmarkBorderIcon from "@mui/icons-material/BookmarkBorder";
 import { useEffect, useState } from "react";
-import { useParams } from "next/navigation";
 import Notification from "./Notification";
 
 const CardIndex: React.FC<{
@@ -17,7 +16,6 @@ const CardIndex: React.FC<{
   const [dataCookie, setDataCookie] = useState<null | any>(null);
   const [openNoti, setOpenNoti] = useState(false);
   const [message, setMessage] = useState("");
-  const paramId = useParams();
 
   useEffect(() => {
     if (typeof window !== "undefined") {
@@ -36,7 +34,7 @@ const CardIndex: React.FC<{
     }
   }, []);
 
-  const handleBookmask = async (type: string) => {
+  const handleBookmask = async (id: string, type: string) => {
     const memberId = JSON.parse(localStorage.getItem("user") as any);
     const resp = await fetch("http://localhost:8080/user/save", {
       method: "POST",
@@ -46,7 +44,7 @@ const CardIndex: React.FC<{
         "Content-Type": "application/json",
       },
       body: JSON.stringify({
-        articleId: paramId?.id,
+        articleId: id,
         memberId: memberId?.member?.id,
         type: type,
       }),
@@ -124,13 +122,13 @@ const CardIndex: React.FC<{
                                   dataCookie?.member?.savedArticles?.includes(
                                     el.id
                                   ) ? (
-                                    <BookmarkIcon onClick={() => handleBookmask("save")} />
+                                    <BookmarkIcon onClick={() => handleBookmask(el.id, "unsave")} />
                                   ) : (
                                     <>
                                       {!dataCookie ? (
                                         ""
                                       ) : (
-                                        <BookmarkBorderIcon onClick={() => handleBookmask("unsave")} />
+                                        <BookmarkBorderIcon onClick={() => handleBookmask(el.id, "save")} />
                                       )}
                                     </>
                                   )}
