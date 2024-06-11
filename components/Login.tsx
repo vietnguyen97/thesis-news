@@ -54,7 +54,7 @@ const Login: React.FC = () => {
         }
       }
     }
-  }, [dataCookie]);
+  }, [localStorage.getItem('user')]);
 
   const {
     handleSubmit,

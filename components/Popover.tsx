@@ -25,6 +25,7 @@ const PopoverCustom = () => {
   const handleLogOut = () => {
     addUser(false);
     router.push("/");
+    localStorage.removeItem('user');
   };
   return (
     <div>
