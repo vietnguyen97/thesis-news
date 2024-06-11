@@ -1,5 +1,6 @@
 "use client";
 import { useEffect, useState } from "react";
+import CardCustom from "./Card";
 import { usePersonStore } from "@/story";
 import CardIndex from "./CardIndex";
 import { Box, CircularProgress, Pagination } from "@mui/material";

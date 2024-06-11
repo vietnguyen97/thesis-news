@@ -12,8 +12,8 @@ const CardIndex: React.FC<{ data: [] | never[]; isStyle?: boolean }> = ({
   isStyle = false,
 }) => {
   const userData: any = usePersonStore((state: any) => state.user);
-  const userStorate = localStorage.getItem('user');
-  const dataCookie = userStorate && JSON.parse(userStorate);
+  // const userStorate = localStorage.getItem('user');
+  // const dataCookie = userStorate && JSON.parse(userStorate);
   return (
     <>
       <div className={`${isStyle ? "" : "pt-8"} block`}>
@@ -55,7 +55,7 @@ const CardIndex: React.FC<{ data: [] | never[]; isStyle?: boolean }> = ({
                                     el.publicationDate * 1000
                                   )}
                                 </div>
-                                <div className="cursor-pointer">
+                                {/* <div className="cursor-pointer">
                                   {dataCookie &&
                                   dataCookie?.member?.savedArticles?.length > 0 &&
                                   dataCookie?.member?.savedArticles?.includes(
@@ -67,7 +67,7 @@ const CardIndex: React.FC<{ data: [] | never[]; isStyle?: boolean }> = ({
                                       {!dataCookie ? "" : <BookmarkBorderIcon />}
                                     </>
                                   )}
-                                </div>
+                                </div> */}
                               </div>
                             </div>
                             <div className="mt-3 block">
