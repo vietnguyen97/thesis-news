@@ -41,7 +41,7 @@ const Login: React.FC = () => {
   const userData: any = usePersonStore((state: any) => state.user);
 
   const [dataCookie, setDataCookie] = useState(null);
-  const [isDataCookie, setIsDataCookie] = useState(null);
+  const [isDataCookie, setIsDataCookie] = useState<boolean>(false);
 
   useEffect(() => {
     if (typeof window !== "undefined") {
