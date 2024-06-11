@@ -42,7 +42,7 @@ const DetailArticle: React.FC = () => {
                     <div className="flex items-center">
                       <div>
                         <Chip
-                          label={data.topics[0] || ""}
+                          label={data.topic && data.topics[0] || ""}
                           className="bg-[#f17b7b] text-white"
                         />
                       </div>
