@@ -33,36 +33,31 @@ const CreatePost: React.FC = () => {
 
   const onSubmit = handleSubmit(async (data) => {
     const memberId = JSON.parse(localStorage.getItem("user") as any);
-    console.log({
-      ...data,
-      label: data.lable.split(","),
-      memberId: memberId?.member?.id,
-    });
-    // const resp = await fetch("http://localhost:8080/user/post", {
-    //   method: "POST",
-    //   mode: "cors",
-    //   credentials: "same-origin",
-    //   headers: {
-    //     "Content-Type": "application/json",
-    //   },
-    //   body: JSON.stringify({
-    //     ...data,
-    //     label: data.lable.split(","),
-    //     memberId: memberId?.member?.id,
-    //   }),
-    // })
-    //   .then((result) => result.json())
-    //   .catch((e) => console.log(e));
+    const resp = await fetch("http://localhost:8080/user/post", {
+      method: "POST",
+      mode: "cors",
+      credentials: "same-origin",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({
+        ...data,
+        label: data.lable.split(","),
+        memberId: memberId?.member?.id,
+      }),
+    })
+      .then((result) => result.json())
+      .catch((e) => console.log(e));
 
-    // if (resp.statusCode !== 200) {
-    //   setOpenNoti(true);
-    //   setMessage(resp?.message);
-    // }
-    // if (resp.statusCode === 200) {
-    //   setOpenNoti(true);
-    //   setMessage(resp?.message);
-    //   reset();
-    // }
+    if (resp.statusCode !== 200) {
+      setOpenNoti(true);
+      setMessage(resp?.message);
+    }
+    if (resp.statusCode === 200) {
+      setOpenNoti(true);
+      setMessage(resp?.message);
+      reset();
+    }
   });
   const handleCloseNoti = () => {
     setOpenNoti(false);
