@@ -22,6 +22,7 @@ import { yupResolver } from "@hookform/resolvers/yup";
 import { usePersonStore } from "@/story";
 import ForgetPassword from "./ForgetPassword";
 import NewPassword from "./NewPassword";
+import { getCookie, setCookie } from "cookies-next";
 
 interface IFormInputs {
   email: string;
@@ -38,6 +39,7 @@ const schema = yup
 const Login: React.FC = () => {
   const addUser: any = usePersonStore((state: any) => state.addUser);
   const userData: any = usePersonStore((state: any) => state.user);
+  const dataCookie = JSON.parse(getCookie('user') as any);
   const {
     handleSubmit,
     reset,
@@ -93,6 +95,7 @@ const Login: React.FC = () => {
         setMessage(resp?.message);
         return;
       }
+      setCookie('user', JSON.stringify(resp.data));
       addUser(resp.data);
       setOpenNoti(true);
       setMessage("Đăng nhập thành công");
@@ -149,7 +152,7 @@ const Login: React.FC = () => {
         handleCloseNoti={handleCloseNoti}
         message={message}
       />
-      {userData ? (
+      {dataCookie ? (
         <PopoverCustom />
       ) : (
         <Button variant="outlined" onClick={handleClickOpen}>

@@ -38,7 +38,7 @@ const DetailArticle: React.FC = () => {
                     <p className="font-bold text-4xl">{data?.title || ""}</p>
                   </div>
                   <Divider component="li" className="my-3" />
-                  <div className="block mb-10">
+                  <div className="block mb-5">
                     <div className="flex items-center">
                       <div>
                         <Chip
@@ -66,6 +66,7 @@ const DetailArticle: React.FC = () => {
                   </div>
                   <ContentPost data={data.content} images={data.images} />
                 </div>
+                <div className="block mb-10"></div>
               </div>
             </div>
           </div>

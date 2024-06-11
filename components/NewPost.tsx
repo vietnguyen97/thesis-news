@@ -11,9 +11,11 @@ import ArticleSee from "./AricleSee";
 import CreatePost from "./CreatePost";
 import { usePersonStore } from "@/story";
 import AriclePushlish from "./AriclePushlish";
+import { getCookie } from "cookies-next";
 
 const NewPost: React.FC = () => {
   const userData: any = usePersonStore((state: any) => state.user);
+  const dataCookie = JSON.parse(getCookie('user') as any);
   const [value, setValue] = useState(0);
   const handleClick = (val: number) => {
     setValue(val);
@@ -26,9 +28,9 @@ const NewPost: React.FC = () => {
             <div className="border-solid border-[1px] border-[#bdbdbd] rounded-lg">
               <div className="flex items-center flex-col py-5">
                 <Avatar sx={{ width: 80, height: 80 }}>H</Avatar>
-                {userData?.role?.role === "Admin" && <span>Quản trị</span>}
-                {userData?.role?.role === "Author" && <span>Tác giả</span>}
-                {userData?.role?.role === "Member" && <span>Thành viên</span>}
+                {dataCookie?.role?.role === "Admin" && <span>Quản trị</span>}
+                {dataCookie?.role?.role === "Author" && <span>Tác giả</span>}
+                {dataCookie?.role?.role === "Member" && <span>Thành viên</span>}
                 <span></span>
               </div>
               <Divider component="li" />
@@ -46,7 +48,7 @@ const NewPost: React.FC = () => {
                   <MenuItem onClick={() => handleClick(3)}>
                     <ListItemText>Bài viết đã xem</ListItemText>
                   </MenuItem>
-                  {userData?.role?.role !== "Member" && (
+                  {dataCookie?.role?.role !== "Member" && (
                     <MenuItem onClick={() => handleClick(4)}>
                       <ListItemText>Bài viết đã tạo</ListItemText>
                     </MenuItem>
@@ -65,8 +67,8 @@ const NewPost: React.FC = () => {
                     style={{ minHeight: "calc(-57px + 100vh)" }}
                   >
                     <Infomation
-                      name={userData?.member?.fullName}
-                      email={userData?.account?.email}
+                      name={dataCookie?.member?.fullName}
+                      email={dataCookie?.account?.email}
                     />
                   </div>
                 )}

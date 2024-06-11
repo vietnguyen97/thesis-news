@@ -19,9 +19,9 @@ const ContentPost: React.FC<{ data: string; images: any }> = ({
       i += 2
     ) {
       const imageElement = `
-        <div style=""text-align: center;"">
+        <div style="text-align: center;">
           <img alt=""image"" src=${images[imageIndex]?.url || ""} />
-          <p style=""margin-bottom: 5px;""><em>${
+          <p style="margin-bottom: 5px;"><em>${
             images[imageIndex]?.description || ""
           }</em></p>
         </div>`;
@@ -30,7 +30,7 @@ const ContentPost: React.FC<{ data: string; images: any }> = ({
     }
   }
 
-  const rawHTML = `${dataFormat.join('<p class=""mb-3"" />')}`;
+  const rawHTML = `${dataFormat.join('<p class="mb-3" />')}`;
   return (
     <div dangerouslySetInnerHTML={{ __html: DOMPurify.sanitize(rawHTML) }} />
   );

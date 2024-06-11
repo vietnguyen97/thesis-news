@@ -4,6 +4,7 @@ import CardCustom from "./Card";
 import { usePersonStore } from "@/story";
 import CardIndex from "./CardIndex";
 import { Box, CircularProgress, Pagination } from "@mui/material";
+import { getCookie } from "cookies-next";
 
 const ArticleSave: React.FC = () => {
   const userData: any = usePersonStore((state: any) => state.user);
@@ -14,6 +15,7 @@ const ArticleSave: React.FC = () => {
 
   const getPostSave = async () => {
     setIsLoading(true);
+    const dataCookie = JSON.parse(getCookie('user') as any);
     const resp = await fetch(`http://localhost:8080/user/get_articles`, {
       method: "POST",
       mode: "cors",
@@ -22,7 +24,7 @@ const ArticleSave: React.FC = () => {
         "Content-Type": "application/json",
       },
       body: JSON.stringify({
-        memberId: userData.member.id,
+        memberId: dataCookie?.member?.id || "",
         type: "saved",
         page: page,
         size: 10,

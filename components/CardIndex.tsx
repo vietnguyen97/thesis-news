@@ -6,12 +6,14 @@ import Link from "next/link";
 import BookmarkIcon from "@mui/icons-material/Bookmark";
 import BookmarkBorderIcon from "@mui/icons-material/BookmarkBorder";
 import { usePersonStore } from "@/story";
+import { getCookie } from "cookies-next";
 
 const CardIndex: React.FC<{ data: [] | never[]; isStyle?: boolean }> = ({
   data,
   isStyle = false,
 }) => {
   const userData: any = usePersonStore((state: any) => state.user);
+  const dataCookie = JSON.parse(getCookie('user') as any);
   return (
     <>
       <div className={`${isStyle ? "" : "pt-8"} block`}>
@@ -54,15 +56,15 @@ const CardIndex: React.FC<{ data: [] | never[]; isStyle?: boolean }> = ({
                                   )}
                                 </div>
                                 <div className="cursor-pointer">
-                                  {userData &&
-                                  userData?.member?.savedArticles.length > 0 &&
-                                  userData?.member?.savedArticles.includes(
+                                  {dataCookie &&
+                                  dataCookie?.member?.savedArticles?.length > 0 &&
+                                  dataCookie?.member?.savedArticles?.includes(
                                     el.id
                                   ) ? (
                                     <BookmarkIcon />
                                   ) : (
                                     <>
-                                      {!userData ? "" : <BookmarkBorderIcon />}
+                                      {!dataCookie ? "" : <BookmarkBorderIcon />}
                                     </>
                                   )}
                                 </div>
