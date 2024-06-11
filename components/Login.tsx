@@ -45,12 +45,15 @@ const Login: React.FC = () => {
 
   useEffect(() => {
     if (typeof window !== "undefined") {
-      const userStorate = localStorage.getItem('user');
+      const userStorate = localStorage.getItem("user");
       if (userStorate) {
         try {
           setDataCookie(JSON.parse(userStorate));
         } catch (error) {
-          console.error("Lỗi khi phân tích dữ liệu JSON từ localStorage:", error);
+          console.error(
+            "Lỗi khi phân tích dữ liệu JSON từ localStorage:",
+            error
+          );
           setDataCookie(null);
         }
       }
@@ -114,7 +117,7 @@ const Login: React.FC = () => {
         return;
       }
       if (typeof window !== "undefined") {
-        localStorage.setItem('user', JSON.stringify(resp.data));
+        localStorage.setItem("user", JSON.stringify(resp.data));
       }
       addUser(resp.data);
       setOpenNoti(true);
@@ -139,9 +142,9 @@ const Login: React.FC = () => {
         return;
       }
       if (typeof window !== "undefined") {
-        localStorage.setItem('user', JSON.stringify(resp.data));
-        setIsDataCookie(true);
+        localStorage.setItem("user", JSON.stringify(resp.data));
       }
+      setIsDataCookie(true);
       addUser(resp?.data);
       setOpenNoti(true);
       setMessage("Đăng ký thành công");
