@@ -3,7 +3,7 @@
 import { getRandomInt } from "@/lib/format";
 import DOMPurify from "dompurify";
 
-const ContentPost: React.FC<{ data: string; images: [] }> = ({
+const ContentPost: React.FC<{ data: string; images: any }> = ({
   data,
   images,
 }) => {
@@ -14,11 +14,11 @@ const ContentPost: React.FC<{ data: string; images: [] }> = ({
   }
 
   if (indexRandom?.length > 0) {
-    indexRandom?.map((el: any) =>
+    indexRandom?.map((el: any, index: number) =>
       dataFormat.splice(
         el,
         0,
-        `<img alt="image" src="https://i1-vnexpress.vnecdn.net/2022/01/24/GS-Nong-Van-Hai-6357-1642958872.jpg?w=680&h=0&q=100&dpr=1&fit=crop&s=B2yTyXRzXLHiAsAZFCW03Q" />`
+        `<img alt="image" src=${images[index]?.url || ""} />`
       )
     );
   }

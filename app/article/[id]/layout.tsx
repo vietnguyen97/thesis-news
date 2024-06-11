@@ -1,3 +1,4 @@
+import Footer from "@/components/Footer";
 import Header from "@/components/Header";
 import { Metadata } from "next";
 
@@ -24,6 +25,7 @@ export default function RootLayout({
             </div>
           </div>
         </div>
+        <Footer />
       </body>
     </html>
   );
