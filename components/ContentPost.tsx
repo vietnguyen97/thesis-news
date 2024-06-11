@@ -1,6 +1,5 @@
 "use client";
 
-import { getRandomInt } from "@/lib/format";
 import DOMPurify from "dompurify";
 
 const ContentPost: React.FC<{ data: string; images: any }> = ({
@@ -8,24 +7,24 @@ const ContentPost: React.FC<{ data: string; images: any }> = ({
   images,
 }) => {
   const dataFormat = data.split("\n");
-  let indexRandom: any;
-  if (images && images.length > 0) {
-    indexRandom = images.map(() => getRandomInt(dataFormat.length));
+
+  // Chỉ số cho hình ảnh
+  let imageIndex = 0;
+
+  // Chèn hình ảnh và mô tả vào vị trí sao cho mỗi hình cách nhau ít nhất 1 content
+  for (let i = 1; i < dataFormat.length && imageIndex < images.length; i += 2) {
+    const imageElement = `
+      <div style=""text-align: center;"">
+        <img alt=""image"" src=${images[imageIndex]?.url || ""} />
+        <p style=""margin-bottom: 5px;""><em>${
+          images[imageIndex]?.description || ""
+        }</em></p>
+      </div>`;
+    dataFormat.splice(i, 0, imageElement);
+    imageIndex++;
   }
 
-  if (indexRandom?.length > 0) {
-    indexRandom?.map((el: any, index: number) => {
-      if (index === 1 || index === 3 || index === 5) {
-        dataFormat.splice(
-          el,
-          0,
-          `<img alt="image" src=${images[index]?.url || ""} />`
-        );
-      }
-    });
-  }
-
-  const rawHTML = `${dataFormat.join('<p class="mb-3" />')}`;
+  const rawHTML = `${dataFormat.join('<p class=""mb-3"" />')}`;
   return (
     <div dangerouslySetInnerHTML={{ __html: DOMPurify.sanitize(rawHTML) }} />
   );
