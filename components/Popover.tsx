@@ -27,7 +27,7 @@ const PopoverCustom = () => {
     router.push("/");
   };
   return (
-    <>
+    <div>
       <div>
         <Button
           id="basic-button"
@@ -53,7 +53,7 @@ const PopoverCustom = () => {
           <MenuItem onClick={() => handleLogOut()}>Đăng xuất</MenuItem>
         </Menu>
       </div>
-    </>
+    </div>
   );
 };
 

@@ -18,7 +18,7 @@ const NewPost: React.FC = () => {
     setValue(val);
   };
   return (
-    <>
+    <div>
       <div className="max-w-[1336px] m-auto block mt-10">
         <div className="justify-evenly flex-row flex">
           <div className="flex-auto block md:min-w-[328px] md:max-w-[328px]">
@@ -106,7 +106,7 @@ const NewPost: React.FC = () => {
           </div>
         </div>
       </div>
-    </>
+    </div>
   );
 };
 

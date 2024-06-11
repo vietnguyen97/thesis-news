@@ -6,7 +6,6 @@ import { Chip } from "@mui/material";
 import { useParams } from "next/navigation";
 import { useEffect, useState } from "react";
 
-
 const DetailArticle: React.FC = () => {
   const router = useParams();
   const [data, setData] = useState<any>();
@@ -21,7 +20,10 @@ const DetailArticle: React.FC = () => {
     getDataArticle();
   }, []);
 
-  if (!data) return <div></div>
+  if (!data) {
+    return <div></div>;
+  }
+
   return (
     <>
       <div className="block mt-5">
