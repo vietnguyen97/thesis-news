@@ -55,7 +55,7 @@ const Login: React.FC = () => {
   const [message, setMessage] = React.useState("");
   const [title, setTitle] = React.useState("Đăng nhập");
   const [showPassword, setShowPassword] = React.useState(false);
-  const [step, setStep] = useState(1);
+  const [step, setStep] = useState(0);
   const [emailNewPassword, setEmailNewPassword] = useState("");
 
   const handleClickOpen = () => {
