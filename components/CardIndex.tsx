@@ -38,7 +38,7 @@ const CardIndex: React.FC<{ data: [] | never[]; isStyle?: boolean }> = ({
                                 <Link href={`/article/${el.id}`}>
                                   <div>
                                     <Chip
-                                      label={el.topics[0] || ""}
+                                      label={el.topics && el.topics[0] || ""}
                                       className="bg-[#f17b7b] text-white"
                                     />
                                   </div>

@@ -9,7 +9,7 @@ const ContentPost: React.FC<{ data: string; images: [] }> = ({
 }) => {
   const dataFormat = data.split("\n");
   let indexRandom: any;
-  if (images.length > 0) {
+  if (images && images.length > 0) {
     indexRandom = images.map(() => getRandomInt(dataFormat.length));
   }
 

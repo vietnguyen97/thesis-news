@@ -5,7 +5,7 @@ import { usePersonStore } from "@/story";
 import CardIndex from "./CardIndex";
 import { Box, CircularProgress, Pagination } from "@mui/material";
 
-const ArticleSave: React.FC = () => {
+const AriclePushlish: React.FC = () => {
   const userData: any = usePersonStore((state: any) => state.user);
   const [data, setData] = useState([]);
   const [page, setPage] = useState<number>(1);
@@ -23,7 +23,7 @@ const ArticleSave: React.FC = () => {
       },
       body: JSON.stringify({
         memberId: userData.member.id,
-        type: "saved",
+        type: "published",
         page: page,
         size: 10,
       }),
@@ -50,7 +50,7 @@ const ArticleSave: React.FC = () => {
       <div className="block">
         <div className="flex flex-col">
           <div className="mb-4">
-            <h1 className="font-bold text-2xl">Bài viết đã lưu</h1>
+            <h1 className="font-bold text-2xl">Bài viết đã tạo</h1>
           </div>
           <div>
             {isLoading ? (
@@ -87,4 +87,4 @@ const ArticleSave: React.FC = () => {
   );
 };
 
-export default ArticleSave;
+export default AriclePushlish;
