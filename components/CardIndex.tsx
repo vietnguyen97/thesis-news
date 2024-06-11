@@ -11,11 +11,11 @@ import Notification from "./Notification";
 const CardIndex: React.FC<{
   data: [] | never[];
   isStyle?: boolean;
-  setIsRefresh: () => void;
-}> = ({ data, isStyle = false, setIsRefresh }) => {
+}> = ({ data, isStyle = false }) => {
   const [dataCookie, setDataCookie] = useState<null | any>(null);
   const [openNoti, setOpenNoti] = useState(false);
   const [message, setMessage] = useState("");
+  const [isDataCookie, setIsDataCookie] = useState<boolean>(false);
 
   useEffect(() => {
     if (typeof window !== "undefined") {
@@ -32,7 +32,7 @@ const CardIndex: React.FC<{
         }
       }
     }
-  }, []);
+  }, [isDataCookie]);
 
   const handleBookmask = async (id: string, type: string) => {
     const memberId = JSON.parse(localStorage.getItem("user") as any);
@@ -60,7 +60,8 @@ const CardIndex: React.FC<{
     if (resp.statusCode === 200) {
       setOpenNoti(true);
       setMessage(resp?.message || resp?.data?.message);
-      setIsRefresh();
+      localStorage.setItem("user", JSON.stringify(resp?.data?.article));
+      setIsDataCookie(!isDataCookie);
     }
   };
 
@@ -122,13 +123,21 @@ const CardIndex: React.FC<{
                                   dataCookie?.member?.savedArticles?.includes(
                                     el.id
                                   ) ? (
-                                    <BookmarkIcon onClick={() => handleBookmask(el.id, "unsave")} />
+                                    <BookmarkIcon
+                                      onClick={() =>
+                                        handleBookmask(el.id, "unsave")
+                                      }
+                                    />
                                   ) : (
                                     <>
                                       {!dataCookie ? (
                                         ""
                                       ) : (
-                                        <BookmarkBorderIcon onClick={() => handleBookmask(el.id, "save")} />
+                                        <BookmarkBorderIcon
+                                          onClick={() =>
+                                            handleBookmask(el.id, "save")
+                                          }
+                                        />
                                       )}
                                     </>
                                   )}
