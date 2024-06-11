@@ -14,13 +14,15 @@ const ContentPost: React.FC<{ data: string; images: any }> = ({
   }
 
   if (indexRandom?.length > 0) {
-    indexRandom?.map((el: any, index: number) =>
-      dataFormat.splice(
-        el,
-        0,
-        `<img alt="image" src=${images[index]?.url || ""} />`
-      )
-    );
+    indexRandom?.map((el: any, index: number) => {
+      if (index === 1 || index === 3 || index === 5) {
+        dataFormat.splice(
+          el,
+          0,
+          `<img alt="image" src=${images[index]?.url || ""} />`
+        );
+      }
+    });
   }
 
   const rawHTML = `${dataFormat.join('<p class="mb-3" />')}`;
