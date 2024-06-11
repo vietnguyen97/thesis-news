@@ -41,6 +41,7 @@ const Login: React.FC = () => {
   const userData: any = usePersonStore((state: any) => state.user);
 
   const [dataCookie, setDataCookie] = useState(null);
+  const [isDataCookie, setIsDataCookie] = useState(null);
 
   useEffect(() => {
     if (typeof window !== "undefined") {
@@ -54,7 +55,7 @@ const Login: React.FC = () => {
         }
       }
     }
-  }, [localStorage.getItem('user')]);
+  }, [isDataCookie]);
 
   const {
     handleSubmit,
@@ -139,6 +140,7 @@ const Login: React.FC = () => {
       }
       if (typeof window !== "undefined") {
         localStorage.setItem('user', JSON.stringify(resp.data));
+        setIsDataCookie(true);
       }
       addUser(resp?.data);
       setOpenNoti(true);
