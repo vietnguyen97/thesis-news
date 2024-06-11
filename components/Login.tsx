@@ -182,7 +182,7 @@ const Login: React.FC = () => {
         message={message}
       />
       {dataCookie ? (
-        <PopoverCustom />
+        <PopoverCustom setDataCookie={(e: any) => setDataCookie(e)} />
       ) : (
         <Button variant="outlined" onClick={handleClickOpen}>
           Đăng nhập

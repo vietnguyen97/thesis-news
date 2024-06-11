@@ -5,7 +5,9 @@ import Link from "next/link";
 import { usePersonStore } from "@/story";
 import { useRouter } from "next/navigation";
 
-const PopoverCustom = () => {
+const PopoverCustom: React.FC<{ setDataCookie: (e: any) => void }> = ({
+  setDataCookie,
+}) => {
   const router = useRouter();
   const addUser: any = usePersonStore((state: any) => state.addUser);
   const [anchorEl, setAnchorEl] = React.useState<HTMLButtonElement | null>(
@@ -25,7 +27,8 @@ const PopoverCustom = () => {
   const handleLogOut = () => {
     addUser(false);
     router.push("/");
-    localStorage.removeItem('user');
+    localStorage.removeItem("user");
+    setDataCookie(null);
   };
   return (
     <div>
