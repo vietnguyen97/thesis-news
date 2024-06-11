@@ -3,7 +3,6 @@ import { useEffect, useState } from "react";
 import { usePersonStore } from "@/story";
 import { Box, CircularProgress, Pagination } from "@mui/material";
 import CardIndex from "./CardIndex";
-import { getCookie } from "cookies-next";
 
 const ArticleSee: React.FC = () => {
   const userData: any = usePersonStore((state: any) => state.user);
@@ -14,7 +13,7 @@ const ArticleSee: React.FC = () => {
 
   const getPostSee = async () => {
     setIsLoading(true);
-    const dataCookie = JSON.parse(getCookie('user') as any);
+    const dataCookie = JSON.parse(localStorage.getItem("user") as any);
     const resp = await fetch(`http://localhost:8080/user/get_articles`, {
       method: "POST",
       mode: "cors",

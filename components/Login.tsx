@@ -39,7 +39,9 @@ const schema = yup
 const Login: React.FC = () => {
   const addUser: any = usePersonStore((state: any) => state.addUser);
   const userData: any = usePersonStore((state: any) => state.user);
-  const dataCookie = JSON.parse(getCookie('user') as any);
+  const userStorate = localStorage.getItem('user');
+  const dataCookie = userStorate && JSON.parse(userStorate);
+
   const {
     handleSubmit,
     reset,
@@ -95,7 +97,7 @@ const Login: React.FC = () => {
         setMessage(resp?.message);
         return;
       }
-      setCookie('user', JSON.stringify(resp.data));
+      localStorage.setItem('user', JSON.stringify(resp.data))
       addUser(resp.data);
       setOpenNoti(true);
       setMessage("Đăng nhập thành công");

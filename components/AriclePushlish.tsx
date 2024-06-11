@@ -16,7 +16,7 @@ const AriclePushlish: React.FC = () => {
 
   const getPostSave = async () => {
     setIsLoading(true);
-    const dataCookie = JSON.parse(getCookie('user') as any);
+    const dataCookie = JSON.parse(localStorage.getItem("user") as any);
     const resp = await fetch(`http://localhost:8080/user/get_articles`, {
       method: "POST",
       mode: "cors",

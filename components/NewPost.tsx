@@ -11,11 +11,11 @@ import ArticleSee from "./AricleSee";
 import CreatePost from "./CreatePost";
 import { usePersonStore } from "@/story";
 import AriclePushlish from "./AriclePushlish";
-import { getCookie } from "cookies-next";
 
 const NewPost: React.FC = () => {
   const userData: any = usePersonStore((state: any) => state.user);
-  const dataCookie = JSON.parse(getCookie('user') as any);
+  const userStorate = localStorage.getItem('user');
+  const dataCookie = userStorate && JSON.parse(userStorate);
   const [value, setValue] = useState(0);
   const handleClick = (val: number) => {
     setValue(val);

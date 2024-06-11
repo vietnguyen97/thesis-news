@@ -6,14 +6,14 @@ import Link from "next/link";
 import BookmarkIcon from "@mui/icons-material/Bookmark";
 import BookmarkBorderIcon from "@mui/icons-material/BookmarkBorder";
 import { usePersonStore } from "@/story";
-import { getCookie } from "cookies-next";
 
 const CardIndex: React.FC<{ data: [] | never[]; isStyle?: boolean }> = ({
   data,
   isStyle = false,
 }) => {
   const userData: any = usePersonStore((state: any) => state.user);
-  const dataCookie = JSON.parse(getCookie('user') as any);
+  const userStorate = localStorage.getItem('user');
+  const dataCookie = userStorate && JSON.parse(userStorate);
   return (
     <>
       <div className={`${isStyle ? "" : "pt-8"} block`}>
