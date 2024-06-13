@@ -72,7 +72,8 @@ const Infomation: React.FC<{ name: string; email: string }> = ({
     if (resp?.statusCode === 200) {
       setOpenNoti(true);
       setMessage(resp?.message || resp?.data?.message);
-      setDataName(resp?.data?.fullName);
+      setDataName(resp?.data?.member?.fullName);
+      localStorage.setItem('user', JSON.stringify(resp?.data))
     }
     setIsName(false);
     reset();
@@ -126,7 +127,7 @@ const Infomation: React.FC<{ name: string; email: string }> = ({
           </div>
           {dataName && (
             <>
-              <div className="flex flex-col">
+              <div className="flex flex-col mb-2">
                 <div className="flex justify-between">
                   <label className="font-semibold pb-2">Tên: </label>
                   <label className="cursor-pointer">
@@ -158,17 +159,17 @@ const Infomation: React.FC<{ name: string; email: string }> = ({
                   <span>{dataName || ""}</span>
                 )}
               </div>
-              <Divider component="li" className="my-4" />
+              <Divider component="li" className="my-4 mb-2" />
             </>
           )}
-          <div className="flex flex-col">
+          <div className="flex flex-col mb-2">
             <div className="flex justify-between">
               <label className="font-semibold pb-2">Email: </label>
             </div>
             <span>{email}</span>
           </div>
-          <Divider component="li" className="my-4" />
-          <div className="flex flex-col">
+          <Divider component="li" className="my-4 mb-2" />
+          <div className="flex flex-col mb-2">
             <div className="flex justify-between">
               <label className="font-semibold pb-2">Mật khẩu: </label>
               <label className="cursor-pointer">
@@ -255,7 +256,7 @@ const Infomation: React.FC<{ name: string; email: string }> = ({
               <span>******</span>
             )}
           </div>
-          <Divider component="li" className="my-4" />
+          <Divider component="li" className="my-4 mb-2" />
         </div>
       </div>
     </div>

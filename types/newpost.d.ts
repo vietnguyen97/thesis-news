@@ -94,4 +94,6 @@ interface UserChartProps {
     total?: number;
     userType?: "activeUsers" | "newUsers";
     className?: string;
+    setTotalUser?: (e: number) => void;
+    setTotalRegiter?: (e: number) => void;
 }

@@ -64,16 +64,6 @@ export const Menus: MenuItemProps[] = [
     },
 ];
 
-export const datasets: any = [
-    {
-        id: 1,
-        label: "Người dùng",
-        data: [0],
-        borderColor: "rgb(53, 162, 235)",
-        backgroundColor: "rgba(53, 162, 235, 0.5)",
-    },
-];
-
 export const rangeDateByDays = (toDate: string, fromDate: string, format?: string) => {
     const result: string[] = [];
     if (!moment(toDate).isValid() || !moment(fromDate).isValid()) {

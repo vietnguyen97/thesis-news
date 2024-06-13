@@ -1,8 +1,13 @@
+"use client";
 import ActiveUserChart from "@/components/ActiveUserChart";
 import General from "@/components/General";
+import NewUserChart from "@/components/NewUserChart";
 import { Grid } from "@mui/material";
+import { useState } from "react";
 
 const ReportChart: React.FC = () => {
+  const [totalUser, setTotalUser] = useState(undefined);
+  const [totalRegiter, setTotalRegiter] = useState(undefined);
   return (
     <Grid
       container
@@ -14,10 +19,10 @@ const ReportChart: React.FC = () => {
       }}
     >
       <Grid item xs={12} md={6} alignItems="center">
-        <General title=" TỔNG USER ĐĂNG KÝ MỚI" total={3121} />
+        <General title=" TỔNG NGƯỜI ĐĂNG KÝ MỚI" total={totalUser} />
       </Grid>
       <Grid item xs={12} md={6}>
-        <General title="TỔNG BÀI VIẾT ĐĂNG MỚI" total={2321} />
+        <General title="TỔNG BÀI VIẾT ĐĂNG MỚI" total={totalRegiter} />
       </Grid>
       <Grid item xs={12} md={6} lg={6}>
         <div
@@ -26,7 +31,8 @@ const ReportChart: React.FC = () => {
         >
           <ActiveUserChart
             className="min-w-[500px]"
-            title="Người dùng đang hoạt độngss"
+            title="Người dùng đang hoạt động"
+            setTotalUser={(e: any) => setTotalUser(e)}
           />
         </div>
       </Grid>
@@ -35,7 +41,11 @@ const ReportChart: React.FC = () => {
           className="p-4 bg-white rounded-[4px]"
           style={{ overflow: "auto" }}
         >
-          chart
+          <NewUserChart
+            className="min-w-[500px]"
+            title="Người dùng mới"
+            setTotalRegiter={(e: any) => setTotalRegiter(e)}
+          />
         </div>
       </Grid>
     </Grid>

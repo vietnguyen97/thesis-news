@@ -20,7 +20,6 @@ const ExpandedTypes = {
 };
 
 const MenuItem = ({ Icon, path, label, type, childrens }: MenuItemProps) => {
-  console.log(path);
   const router = usePathname();
   const [expanded, setExpanded] = useState("");
 

@@ -1,6 +1,5 @@
 "use client";
 /* eslint-disable react/no-unused-prop-types */
-// eslint-disable-next-line object-curly-newline
 import { useEffect, useState } from "react";
 import moment from "moment";
 import { rangeDateByDays } from "@/constant";
@@ -20,24 +19,24 @@ const options: any = {
 
 const datasets: any = [
   {
-    id: 1,
-    label: "Người dùng",
-    data: [0],
-    borderColor: "rgb(53, 162, 235)",
-    backgroundColor: "rgba(53, 162, 235, 0.5)",
+      id: 1,
+      label: "Người dùng",
+      data: [0],
+      borderColor: "rgb(53, 162, 235)",
+      backgroundColor: "rgba(53, 162, 235, 0.5)",
   },
 ];
 
 const formatDate = "MM/DD/YYYY";
 const formatDateRequest = "DD/MM/YYYY";
-const tracking_type = "SIGN_IN" as any;
+const tracking_type = "SIGN_UP" as any;
 const group_by = "DAY" as any;
 const defaultDays = 30;
 const toDate = moment().format(formatDate);
 const fromDate = moment(toDate).add(-defaultDays, "days").format(formatDate);
 const dataLabels = showDataLabels(fromDate, toDate);
 
-const ActiveUserChart = ({ className = "", setTotalUser }: UserChartProps) => {
+const NewUserChart = ({ className = "", setTotalRegiter }: UserChartProps) => {
   const [rangeDate, setDateRange] = useState<[string, string]>([
     fromDate,
     toDate,
@@ -46,7 +45,6 @@ const ActiveUserChart = ({ className = "", setTotalUser }: UserChartProps) => {
     labels: dataLabels,
     datasets: [],
   });
-
   const [openModal, setOpenModal] = useState(false);
   // eslint-disable-next-line object-curly-newline
   const queries = {
@@ -60,7 +58,6 @@ const ActiveUserChart = ({ className = "", setTotalUser }: UserChartProps) => {
 
   const handleChangeDateRange = async (rangeValues: [string, string]) => {
     dataChart.datasets = datasets;
-    const newFromDate = moment(rangeValues[0]).format(formatDateRequest);
     const newToDate = moment(rangeValues[1]).format(formatDateRequest);
     const newDataLabels = showDataLabels(rangeValues[0], rangeValues[1]);
     const mapDataLabels = rangeDateByDays(
@@ -77,7 +74,7 @@ const ActiveUserChart = ({ className = "", setTotalUser }: UserChartProps) => {
         "Content-Type": "application/json",
       },
       body: JSON.stringify({
-        reportType: "registry",
+        reportType: "publish",
         fromDate: moment(rangeValues[0], "MM/DD/YYYY").valueOf() / 1000,
         toDate: moment(rangeValues[1], "MM/DD/YYYY").valueOf() / 1000,
       }),
@@ -92,13 +89,11 @@ const ActiveUserChart = ({ className = "", setTotalUser }: UserChartProps) => {
         );
         return isExisted?.value || 0;
       });
-      console.log(dataset);
       dataChart.labels = newDataLabels;
       dataChart.datasets[0].data = dataset;
       setDataChart({ ...dataChart });
-      if (setTotalUser) setTotalUser(dataTracking.data.totalValue);
+      if (setTotalRegiter) setTotalRegiter(dataTracking.data.totalValue);
     }
-
     setDateRange([rangeValues[0], newToDate]);
   };
 
@@ -115,6 +110,7 @@ const ActiveUserChart = ({ className = "", setTotalUser }: UserChartProps) => {
     handleChangeDateRange(rangeDate);
   }, []);
 
+
   return (
     <div className={className}>
       <HeaderChart
@@ -129,4 +125,4 @@ const ActiveUserChart = ({ className = "", setTotalUser }: UserChartProps) => {
   );
 };
 
-export default ActiveUserChart;
+export default NewUserChart;
