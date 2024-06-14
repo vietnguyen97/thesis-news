@@ -23,7 +23,7 @@ const updateUser = async (
       memberId: dataLocalStorate.member.id,
       updateMemberId: id,
       roleLevel: role,
-      isBlocked: isActive,
+      isActive: isActive,
       fullName: dataLocalStorate.member.fullName,
     }),
   })
