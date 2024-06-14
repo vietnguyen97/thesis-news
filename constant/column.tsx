@@ -10,7 +10,8 @@ const updateUser = async (
   dataLocalStorate: any,
   role: any,
   isActive: boolean,
-  id?: any
+  id: any,
+  type: string
 ) => {
   const resp = await fetch("http://localhost:8080/user/update", {
     method: "POST",
@@ -25,6 +26,7 @@ const updateUser = async (
       roleLevel: role,
       isActive: isActive,
       fullName: dataLocalStorate.member.fullName,
+      type: type
     }),
   })
     .then((result) => result.json())
@@ -81,7 +83,8 @@ const UserColumn = () => {
             dataLocalStorate,
             age,
             true,
-            data.row.id
+            data.row.id,
+            "role"
           );
 
           if (resp?.statusCode !== 200) {
@@ -158,7 +161,8 @@ const UserColumn = () => {
             dataLocalStorate,
             data.row.roleValue,
             !isCheck,
-            data.row.id
+            data.row.id,
+            "status"
           );
           if (resp?.statusCode !== 200) {
           }
