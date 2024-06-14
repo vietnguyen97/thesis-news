@@ -6,7 +6,12 @@ import { useState } from "react";
 import EditIcon from "@mui/icons-material/Edit";
 import DoneIcon from "@mui/icons-material/Done";
 
-const updateUser = async (dataLocalStorate: any, role: any, data: any) => {
+const updateUser = async (
+  dataLocalStorate: any,
+  role: any,
+  isActive: boolean,
+  id?: any
+) => {
   const resp = await fetch("http://localhost:8080/user/update", {
     method: "POST",
     mode: "cors",
@@ -16,9 +21,9 @@ const updateUser = async (dataLocalStorate: any, role: any, data: any) => {
     },
     body: JSON.stringify({
       memberId: dataLocalStorate.member.id,
-      updateMemberId: dataLocalStorate.member.id,
+      updateMemberId: id,
       roleLevel: role,
-      isBlocked: data.row.isActive,
+      isBlocked: isActive,
       fullName: dataLocalStorate.member.fullName,
     }),
   })
@@ -72,7 +77,12 @@ const UserColumn = () => {
           const dataLocalStorate = JSON.parse(
             localStorage.getItem("user") as any
           );
-          const resp: any = await updateUser(dataLocalStorate, age, data);
+          const resp: any = await updateUser(
+            dataLocalStorate,
+            age,
+            true,
+            data.row.id
+          );
 
           if (resp?.statusCode !== 200) {
           }
@@ -131,20 +141,8 @@ const UserColumn = () => {
       },
     },
     {
-      field: "isActive",
-      headerName: "Trạng thái",
-      flex: 1,
-      sortable: false,
-      minWidth: 120,
-      maxWidth: 120,
-      renderCell: (data) => {
-        const label = { inputProps: { "aria-label": "Switch demo" } };
-        return <Switch {...label} disabled checked={data.row.isActive} />;
-      },
-    },
-    {
       field: "id",
-      headerName: "Thao tác",
+      headerName: "Trạng thái",
       flex: 1,
       sortable: false,
       renderCell: (data) => {
@@ -159,7 +157,7 @@ const UserColumn = () => {
           const resp: any = await updateUser(
             dataLocalStorate,
             data.row.roleValue,
-            data
+            !data.row.isActive
           );
           if (resp?.statusCode !== 200) {
           }
@@ -170,9 +168,6 @@ const UserColumn = () => {
         return (
           <>
             <div className="flex">
-              <div>
-                <span>Khóa tài khoản: </span>
-              </div>
               <div>
                 <Switch {...label} checked={isCheck} onChange={handleChange} />
               </div>

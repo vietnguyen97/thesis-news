@@ -6,7 +6,6 @@ import { ToastContainer } from "react-toastify";
 export default function Home() {
   return (
     <div className="block">
-      <ToastContainer />
       <Header />
       <div className="max-w-[1336px] m-auto block">
         {/* <div className="justify-evenly flex-row flex my-3">

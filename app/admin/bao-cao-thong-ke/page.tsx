@@ -8,6 +8,7 @@ import { useState } from "react";
 
 const ReportChart: React.FC = () => {
   const [totalUser, setTotalUser] = useState(undefined);
+  const [totalLabel, setTotalLabel] = useState(undefined);
   const [totalRegiter, setTotalRegiter] = useState(undefined);
   const [value, setValue] = useState(0);
 
@@ -90,7 +91,7 @@ const ReportChart: React.FC = () => {
             }}
           >
             <Grid item xs={12} md={12} alignItems="center">
-              <General title=" TỔNG NGƯỜI ĐĂNG KÝ MỚI" total={totalUser} />
+              <General title="TỔNG NHÃN" total={totalUser} />
             </Grid>
             <Grid item xs={12} md={12} lg={12}>
               <div
@@ -100,7 +101,7 @@ const ReportChart: React.FC = () => {
                 <LabelChart
                   className="min-w-[500px]"
                   title="Người dùng đang hoạt động"
-                  setTotalUser={(e: any) => setTotalUser(e)}
+                  setTotalLabel={(e: any) => setTotalLabel(e)}
                 />
               </div>
             </Grid>

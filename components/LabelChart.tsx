@@ -36,7 +36,7 @@ const defaultDays = 30;
 const toDate = moment().format(formatDate);
 const fromDate = moment(toDate).add(-defaultDays, "days").format(formatDate);
 
-const LabelChart = ({ className = "", setTotalUser }: UserChartProps) => {
+const LabelChart = ({ className = "", setTotalLabel }: UserChartProps) => {
   const [rangeDate, setDateRange] = useState<[string, string]>([
     fromDate,
     toDate,
@@ -60,7 +60,7 @@ const LabelChart = ({ className = "", setTotalUser }: UserChartProps) => {
   const handleChangeDateRange = async (rangeValues: [string, string]) => {
     dataChart.datasets = datasets;
     const fromDate = moment(rangeValues[0]).format("MM/DD/YYYY");
-    const toDate = moment(rangeValues[0]).format("MM/DD/YYYY");
+    const toDate = moment(rangeValues[1]).format("MM/DD/YYYY");
     const newToDate = moment(rangeValues[1]).format(formatDateRequest);
 
     const dataTracking = await fetch("http://localhost:8080/report/get", {
@@ -79,17 +79,17 @@ const LabelChart = ({ className = "", setTotalUser }: UserChartProps) => {
       .then((result) => result.json())
       .catch((e) => console.log(e));
 
-    if (dataTracking.statusCode === 200) {
+    if (dataTracking && dataTracking?.data?.reports?.length > 0) {
       const keys: any[] = [];
       const values: any[] = [];
-      dataTracking.data.forEach((item: { key: any; value: any }) => {
+      dataTracking.data.reports.forEach((item: { key: any; value: any }) => {
         keys.push(item.key);
         values.push(item.value);
       });
       dataChart.labels = keys;
       dataChart.datasets[0].data = values;
       setDataChart({ ...dataChart });
-      if (setTotalUser) setTotalUser(dataTracking.data.totalValue);
+      if (setTotalLabel) setTotalLabel(dataTracking.data.totalValue);
     }
 
     setDateRange([rangeValues[0], newToDate]);

@@ -69,7 +69,7 @@ const Infomation: React.FC<{ name: string; email: string }> = ({
     if (resp?.statusCode === 200) {
       adminNotify(resp?.message || resp?.data?.message, notifyType.SUCCESS);
       setDataName(resp?.data?.member?.fullName);
-      localStorage.setItem('user', JSON.stringify(resp?.data))
+      localStorage.setItem("user", JSON.stringify(resp?.data));
     }
     setIsName(false);
     reset();
@@ -97,6 +97,7 @@ const Infomation: React.FC<{ name: string; email: string }> = ({
       adminNotify(resp?.message || resp?.data?.message, notifyType.ERROR);
     }
     if (resp?.statusCode === 200) {
+      console.log(resp?.message || resp?.data?.message);
       adminNotify(resp?.message || resp?.data?.message, notifyType.SUCCESS);
     }
     setIsPassword(false);
@@ -110,7 +111,7 @@ const Infomation: React.FC<{ name: string; email: string }> = ({
           <div className="mb-4">
             <h1 className="font-bold text-2xl">Thông tin tài khoản</h1>
           </div>
-          {dataName && (
+          {name && (
             <>
               <div className="flex flex-col mb-2">
                 <div className="flex justify-between">
@@ -141,7 +142,7 @@ const Infomation: React.FC<{ name: string; email: string }> = ({
                     )}
                   />
                 ) : (
-                  <span>{dataName || ""}</span>
+                  <span>{dataName || name || ""}</span>
                 )}
               </div>
               <Divider component="li" className="my-4 mb-2" />

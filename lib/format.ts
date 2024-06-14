@@ -57,7 +57,6 @@ const adminNotify = (message: string, type: 'success' | 'warning' | 'error', opt
                 backgroundColor: 'white',
                 color: 'black',
             },
-            position: "top-center",
             ...option,
         }); break;
         case 'error': toast.error(message, {
@@ -67,7 +66,6 @@ const adminNotify = (message: string, type: 'success' | 'warning' | 'error', opt
                 backgroundColor: 'white',
                 color: 'black',
             },
-            position: "top-center",
             ...option,
         }); break;
         case 'warning': toast.warning(message, {
@@ -77,7 +75,6 @@ const adminNotify = (message: string, type: 'success' | 'warning' | 'error', opt
                 backgroundColor: 'white',
                 color: 'black',
             },
-            position: "top-center",
             ...option,
         }); break;
         default: break;

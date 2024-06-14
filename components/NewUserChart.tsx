@@ -59,7 +59,7 @@ const NewUserChart = ({ className = "", setTotalRegiter }: UserChartProps) => {
   const handleChangeDateRange = async (rangeValues: [string, string]) => {
     dataChart.datasets = datasets;
     const fromDate = moment(rangeValues[0]).format("MM/DD/YYYY");
-    const toDate = moment(rangeValues[0]).format("MM/DD/YYYY");
+    const toDate = moment(rangeValues[1]).format("MM/DD/YYYY");
     const newToDate = moment(rangeValues[1]).format(formatDateRequest);
     const newDataLabels = showDataLabels(rangeValues[0], rangeValues[1]);
     const mapDataLabels = rangeDateByDays(
