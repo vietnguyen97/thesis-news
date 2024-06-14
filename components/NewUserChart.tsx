@@ -84,7 +84,7 @@ const NewUserChart = ({ className = "", setTotalRegiter }: UserChartProps) => {
       .then((result) => result.json())
       .catch((e) => console.log(e));
 
-    if (dataTracking && dataTracking.data.reports.length > 0) {
+    if (dataTracking && dataTracking?.data?.reports?.length > 0) {
       const dataset = mapDataLabels.map((label) => {
         const isExisted = dataTracking?.data?.reports?.find(
           (tracking: any) => tracking.key === label
