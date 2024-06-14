@@ -42,7 +42,7 @@ const NewPost: React.FC = () => {
             <div className="border-solid border-[1px] border-[#bdbdbd] rounded-lg">
               <div className="flex items-center flex-col py-5">
                 <Avatar sx={{ width: 80, height: 80 }}>
-                  {dataCookie && dataCookie?.member?.fullName.charAt(0)}
+                  {dataCookie && dataCookie?.member?.fullName.charAt(0).toUpperCase()}
                 </Avatar>
                 {dataCookie && dataCookie?.role?.role === "Admin" && (
                   <span>Quản trị</span>
