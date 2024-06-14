@@ -1,11 +1,12 @@
-import DateCustom from "@/components/Date";
 import Header from "@/components/Header";
 import HightRate from "@/components/HightRate";
 import TabCustom from "@/components/Tab";
+import { ToastContainer } from "react-toastify";
 
 export default function Home() {
   return (
     <div className="block">
+      <ToastContainer />
       <Header />
       <div className="max-w-[1336px] m-auto block">
         {/* <div className="justify-evenly flex-row flex my-3">

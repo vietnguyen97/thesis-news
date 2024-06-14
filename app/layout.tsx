@@ -4,6 +4,7 @@ import "./globals.css";
 import "react-datepicker/dist/react-datepicker.css";
 import Footer from "@/components/Footer";
 import Head from "next/head";
+import "react-toastify/ReactToastify.css";
 
 const inter = Inter({ subsets: ["latin"] });
 

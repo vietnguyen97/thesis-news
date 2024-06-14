@@ -12,8 +12,8 @@ import {
   TextField,
 } from "@mui/material";
 import { Visibility, VisibilityOff } from "@mui/icons-material";
-import Notification from "./Notification";
 import CancelIcon from "@mui/icons-material/Cancel";
+import { adminNotify, notifyType } from "@/lib/format";
 
 const Infomation: React.FC<{ name: string; email: string }> = ({
   name,
@@ -35,8 +35,6 @@ const Infomation: React.FC<{ name: string; email: string }> = ({
   const [isName, setIsName] = useState(false);
   const [isPassword, setIsPassword] = useState(false);
   const [showPassword, setShowPassword] = useState(false);
-  const [openNoti, setOpenNoti] = useState(false);
-  const [message, setMessage] = useState("");
 
   const handleChangeName = (val: boolean) => {
     setIsName(val);
@@ -66,12 +64,10 @@ const Infomation: React.FC<{ name: string; email: string }> = ({
       .catch((e) => console.log(e));
 
     if (resp?.statusCode !== 200) {
-      setOpenNoti(true);
-      setMessage(resp?.message || resp?.data?.message);
+      adminNotify(resp?.message || resp?.data?.message, notifyType.ERROR);
     }
     if (resp?.statusCode === 200) {
-      setOpenNoti(true);
-      setMessage(resp?.message || resp?.data?.message);
+      adminNotify(resp?.message || resp?.data?.message, notifyType.SUCCESS);
       setDataName(resp?.data?.member?.fullName);
       localStorage.setItem('user', JSON.stringify(resp?.data))
     }
@@ -98,28 +94,17 @@ const Infomation: React.FC<{ name: string; email: string }> = ({
       .catch((e) => console.log(e));
 
     if (resp?.statusCode !== 200) {
-      setOpenNoti(true);
-      setMessage(resp?.message || resp?.data?.message);
+      adminNotify(resp?.message || resp?.data?.message, notifyType.ERROR);
     }
     if (resp?.statusCode === 200) {
-      setOpenNoti(true);
-      setMessage(resp?.message || resp?.data?.message);
+      adminNotify(resp?.message || resp?.data?.message, notifyType.SUCCESS);
     }
     setIsPassword(false);
     reset();
   });
-  const handleCloseNoti = () => {
-    setOpenNoti(false);
-    setMessage("");
-  };
 
   return (
     <div>
-      <Notification
-        open={openNoti}
-        handleCloseNoti={handleCloseNoti}
-        message={message}
-      />
       <div className="block">
         <div className="flex flex-col">
           <div className="mb-4">
