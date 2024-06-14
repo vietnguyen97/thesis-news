@@ -157,7 +157,8 @@ const UserColumn = () => {
           const resp: any = await updateUser(
             dataLocalStorate,
             data.row.roleValue,
-            !data.row.isActive
+            !data.row.isActive,
+            data.row.id
           );
           if (resp?.statusCode !== 200) {
           }
